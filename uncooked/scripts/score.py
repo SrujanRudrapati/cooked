@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""cooked: how bad is the rest of the semester.
+"""uncooked: how bad is the rest of the semester.
 
 reads a JSON list of Canvas items and prints one line of JSON with the cooked
 score, hell week, priority list and effort hours. standard library only.

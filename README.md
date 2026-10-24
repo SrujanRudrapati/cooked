@@ -2,13 +2,13 @@
 
 we built this at devhacks after one of us checked canvas at 11pm and found three exams in four days.
 
-a planner tells you what's due. cooked tells you when you're in trouble, why, and what to do first. it's a skill for Cubbie, the assistant that lives in your iMessage.
+a planner tells you what's due. uncooked tells you when you're in trouble, why, and what to do first. it's a skill for Cubbie, the assistant that lives in your iMessage.
 
 ## install
 
 text this link to Cubbie:
 
-https://github.com/SrujanRudrapati/cooked/tree/main/cooked
+https://github.com/SrujanRudrapati/uncooked/tree/main/uncooked
 
 then text "how cooked am I".
 
@@ -45,30 +45,30 @@ add these to your calendar?
 - 45% of your grades landing in one week = 100% cooked
 - +10 if hell week starts within 10 days, +5 more if it's 3 days out
 
-we count grade share, not deadlines. three tiny quizzes are not the same as two big projects. all the math lives in `cooked/scripts/score.py` so Cubbie never makes up a number.
+we count grade share, not deadlines. three tiny quizzes are not the same as two big projects. all the math lives in `uncooked/scripts/score.py` so Cubbie never makes up a number.
 
 ## when you fall behind
 
-every night (9pm unless you pick another time) cooked checks Canvas for what you turned in and your calendar for which study blocks already passed. if it can't tell, it just asks. then you get one text: what you got done, what's due in the next 48 hours, your new score, and what to do next.
+every night (9pm unless you pick another time) uncooked checks Canvas for what you turned in and your calendar for which study blocks already passed. if it can't tell, it just asks. then you get one text: what you got done, what's due in the next 48 hours, your new score, and what to do next.
 
 if you skipped a block it says so. no "great job today!" when you didn't do anything. it moves the block to your next free slot, asks before touching your calendar, and tells you if hell week just got worse. text "pause debriefs" to make it stop.
 
 ## what it doesn't do yet
 
 - pass/fail classes. it still counts them by grade share, which overstates how much they matter
-- classes not on Canvas. if your prof runs everything off a personal site, cooked can't see it unless it's in a syllabus file
+- classes not on Canvas. if your prof runs everything off a personal site, uncooked can't see it unless it's in a syllabus file
 - group projects. it plans like you're doing the whole thing alone, which, honestly, might be accurate
 - it never does your graded work or submits anything for you
 
 ## screenshot
 
 <!-- TODO: swap in a real screenshot from a Cubbie chat -->
-![cooked in iMessage](docs/screenshot.png)
+![uncooked in iMessage](docs/screenshot.png)
 
 ## running it locally
 
 ```
-cd cooked
+cd uncooked
 python3 scripts/score.py --sample
 python3 scripts/test_score.py
 ```
