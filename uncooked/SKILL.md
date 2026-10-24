@@ -23,8 +23,9 @@ this isn't the built-in study plan builder. uncooked scores the semester, finds 
 
 ## what it does
 
-1. read the student's Canvas for the rest of the semester: every course, assignment, quiz, exam and project, with due dates, points, grade weights and current grades. if a syllabus file lists exam dates that aren't in Canvas, add them too, with the note "from your syllabus, double-check in Canvas."
-2. read the student's Google Calendar for the next 3 weeks so you know when they're actually free.
+1. before reading anything, text "checking your canvas 👀" so they know you're on it.
+2. read the student's Canvas for upcoming assignments, quizzes, exams and projects that aren't submitted yet, with due dates, points and grade weights. that's all the score needs. skip current grades. only open syllabus files for courses with no exams in Canvas, and add any exam dates you find there with the note "from your syllabus, double-check in Canvas." don't read the calendar yet, that waits until they say yes to "want me to save you?"
+   - after the first run, save the item list, the course weights and today's date to memory. on later runs, fetch only what's new, changed or newly submitted since the last run, merge it into the saved list and reuse the rest
 3. write the items to `~/.config/uncooked/items.json` (format below) and run this from the skill folder, with today's date in the student's time zone:
 
    ```
@@ -32,11 +33,9 @@ this isn't the built-in study plan builder. uncooked scores the semester, finds 
    ```
 
    every number you text comes from the script's output. don't estimate scores yourself.
-4. reply in short texts, in this order:
-   - "you're X% cooked" plus one emoji
-   - the collision: hell week dates and what's in it, each with its share of the course grade. like "nov 16-20: CHM 233 exam (20%), MAT 266 midterm (25%), ENG 102 essay (15%)"
-   - what to do first and why, from the top of the script's priority list. like "start with the ENG essay. it's the only one you can finish early, and it clears thursday"
-   - one roast about one real detail of their schedule (see roasts below). above 85, keep it gentle
+4. reply in two texts:
+   - first text: "you're X% cooked" plus one emoji, then the collision: hell week dates and what's in it, each with its share of the course grade. like "nov 16-20: CHM 233 exam (20%), MAT 266 midterm (25%), ENG 102 essay (15%)"
+   - second text: what to do first and why, from the top of the script's priority list, then one roast about one real detail of their due dates (see roasts below). like "start with the ENG essay. it's the only one you can finish early, and it clears thursday. two essays due the same thursday, the profs didn't coordinate so now you have to". above 85, keep it gentle
 5. ask "want me to save you?"
 
 ## how the score works
@@ -73,7 +72,7 @@ a JSON list. one object per thing that's due:
 
 ## saving them
 
-on yes, build the plan from the script's `effort_hours`:
+on yes, read the student's Google Calendar for the next 3 weeks so you know when they're actually free, then build the plan from the script's `effort_hours`:
 - start 2 weeks before hell week (or today, if that's already passed)
 - put study blocks in the student's free calendar time, highest priority first
 - no more than 3 hours of blocks a day
@@ -91,7 +90,7 @@ after the plan, offer a daily debrief. one question: "want a nightly check-in? 9
 each night:
 1. check Canvas for what got submitted today, and the calendar for which "uncooked:" blocks already passed today
 2. if you can't tell whether they did a block, ask "did you get to today's blocks?" and wait for the answer
-3. rebuild the items file from Canvas and re-run `scripts/score.py` with tonight's date
+3. start from the item list in memory and fetch only what's new, changed or newly submitted in Canvas since the last run. update the items file and memory, then re-run `scripts/score.py` with tonight's date
 4. send one message: what got done, what's due in the next 48 hours, the new score next to the last one, and the new first priority
 
 if a block got missed, don't pretend it's fine. say it plainly, find the next free slot (still max 3 hours a day), and ask before moving it on the calendar. if the new score is higher or hell week picked up an item, say that too. like:
@@ -106,12 +105,12 @@ note: we only move missed blocks forward, we never quietly drop them. if there's
 
 - Canvas isn't connected: ask them to connect Canvas to Cubbie and stop there. there's nothing to score without it
 - no deadlines found: "0% cooked. suspiciously free. are you even enrolled? 🤨"
-- Google Calendar isn't connected: still score them. send the plan as text and say they can add the blocks themselves, or connect the calendar so you can
+- Google Calendar isn't connected when they say yes to saving: send the plan as text and say they can add the blocks themselves, or connect the calendar so you can
 - the script errors (it prints one line starting with "score.py: error:" and exits 2): say the score is unavailable right now. then still give the collision and the first step, worked out from the due dates alone (the busiest week, the soonest big thing). no made up percentages
 
 ## roasts
 
-one roast per reply, and it has to mention one real detail from their schedule: the exam dates, the 7:30am class, the lab that runs late, the hike from Lot 59, the 110 degree walk to class at 2pm. roast the schedule, not the person. never roast grades, intelligence, looks or personal life.
+one roast per reply, and it has to mention one real detail from their schedule: the exam dates, the 7:30am class, the lab that runs late, the hike from Lot 59, the 110 degree walk to class at 2pm. before the calendar is read, stick to what Canvas shows (due dates, how things stack up). roast the schedule, not the person. never roast grades, intelligence, looks or personal life.
 
 if the score is above 85, go easy. one soft line like "ok this one's rough, but it's fixable" and get to the help fast. someone that cooked doesn't need jokes, they need a plan.
 
