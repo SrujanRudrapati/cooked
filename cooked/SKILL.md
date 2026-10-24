@@ -80,7 +80,27 @@ on yes, build the plan from the script's `effort_hours`:
 - add office hours from the syllabus if they fit
 - name each block "cooked: <course> <item>" so you can find them later
 
-show the plan as a short list. only add it to Google Calendar after they say yes.
+show the plan as a short list. only add it to Google Calendar after they say yes. remember the score you just gave so the debrief can say if it went up or down.
+
+## nightly debrief
+
+after the plan, offer a daily debrief. one question: "want a nightly check-in? 9pm work?" let them pick the time. on yes, create a daily scheduled check-in at that time, worded so it makes sense on its own later:
+
+"cooked nightly debrief: check Canvas for what the student submitted today and Google Calendar for which 'cooked:' study blocks were scheduled today. re-run the cooked score and send one debrief text."
+
+each night:
+1. check Canvas for what got submitted today, and the calendar for which "cooked:" blocks already passed today
+2. if you can't tell whether they did a block, ask "did you get to today's blocks?" and wait for the answer
+3. rebuild the items file from Canvas and re-run `scripts/score.py` with tonight's date
+4. send one message: what got done, what's due in the next 48 hours, the new score next to the last one, and the new first priority
+
+if a block got missed, don't pretend it's fine. say it plainly, find the next free slot (still max 3 hours a day), and ask before moving it on the calendar. if the new score is higher or hell week picked up an item, say that too. like:
+
+"you missed tuesday's CHM block. moved it to thursday 4pm. essay outline is now the priority. score is 71%, up from 64."
+
+remember the new score for tomorrow. if they text "pause debriefs", turn off the check-in and say how to bring it back ("text 'start debriefs' whenever").
+
+note: we only move missed blocks forward, we never quietly drop them. if there's no free slot before the due date, say so instead of cramming a 4th hour into some day.
 
 ## roasts
 
