@@ -39,11 +39,9 @@ you: how cooked am i
 
 cubbie: checking your canvas 👀
 
-cubbie: you're 78% cooked 😬
-based on how much of your grade lands in one week
-nov 17-20: MAT 266 midterm (15%), CHM 233 exam (12%), ENG 102 essay (8%)
+cubbie: you're 78% cooked 😬 because nov 17-20 has MAT 266 midterm (15%), CHM 233 exam (12%) and ENG 102 essay (8%) in one week
 
-cubbie: start with the MAT midterm. it's the biggest piece of that week and it hits first, on tuesday. you have a 3 day gap and then three things in four days. you didn't make a schedule, you made a speedrun
+cubbie: start with the MAT midterm, it's the biggest piece of that week and it hits first. three things in four days, you didn't make a schedule, you made a speedrun
 
 cubbie: how ready are you for the MAT midterm? 1 not started, 2 some, 3 solid
 
@@ -67,7 +65,7 @@ add these to your calendar?
 | Step | What cooked does |
 | --- | --- |
 | **1. Spot the collision** | Reads Canvas deadlines and grade weights, plus exam dates available in a syllabus. Finds the seven days with the most grade weight landing at once. |
-| **2. Explain the score** | Runs the Python scorer and shows which assignments drive the result, with their share of each course grade. Text **“how did you get that score?”** for the math in 3 lines. |
+| **2. Explain the score** | Runs the Python scorer and shows which assignments drive the result, with their share of each course grade. Text **“how did you get that score?”** for the math in 2 sentences. |
 | **3. Ask how ready you are** | Asks one question about the top priority: 1 not started, 2 some, 3 solid. Re-scores with your answer and says if the score moved. |
 | **4. Pick the first move** | Ranks upcoming work by grade share and time remaining, with a reason for the top priorities. |
 | **5. Make room to recover** | Uses free time in Google Calendar to propose study blocks, capped at **3 hours a day**. Asks before adding them. |
@@ -133,7 +131,7 @@ cooked score   = min(100, base score + urgency bonus)
 
 In the sample, **15 + 12 + 8 = 35** percentage points of load. **35 / 45 × 100 → 78%**, with no urgency bonus because the week starts 11 days away.
 
-Weights come from the item's explicit grade share, then its points divided by total course points, then a default by type: exam 20%, project 15%, essay 10%, quiz 3%, homework 2%, other 3%. The score is a workload heuristic that adds percentage points across courses; it caps at 100. If more than a third of your items fall back to a default weight, Cubbie tells you the score is a rough estimate and how many items had no weights in Canvas.
+Weights come from the item's explicit grade share, then its points divided by total course points, then a default by type: exam 20%, project 15%, essay 10%, quiz 3%, homework 2%, other 3%. The score is a workload heuristic that adds percentage points across courses; it caps at 100. If more than a third of your items fall back to a default weight, or the Canvas sync is incomplete, Cubbie adds one short caveat line, once. It never repeats it in later texts.
 
 **Things you're ready for count less.** Readiness 1 (not started) counts fully, 2 (some) counts 70%, and 3 (solid) counts 40%. No answer counts as 1. In nightly debriefs, finished study blocks count the same way: at least one block done is 2, all of an item's blocks done is 3, and it never goes below what you said.
 
