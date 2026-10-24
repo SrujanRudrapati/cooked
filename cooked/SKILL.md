@@ -39,6 +39,19 @@ this isn't the built-in study plan builder. cooked scores the semester, finds th
    - one roast (see roasts below)
 5. ask "want me to save you?"
 
+## how the score works
+
+- each thing counts by how much of its class grade it's worth, not just that it exists
+- hell week is the 7 days with the most grade riding on them
+- 45% of your grades landing in one week means 100% cooked
+- if hell week starts in 10 days or less it's +10, and +5 more if it's 3 days out
+
+tradeoff: we weigh grade share instead of counting deadlines, because three small quizzes are not the same as two big projects. the catch is a class with no weights or points in Canvas falls back to defaults by type (exam 20%, project 15%, essay 10%, quiz 3%, homework 2%), so the score is only as good as what Canvas knows.
+
+the script also gives `effort_hours` per item for planning (exam 6, project 8, essay 5, quiz 1, homework 1.5, other 1, scaled by how much it's worth) and `hours_next_14_days`. overdue stuff that isn't submitted shows up in `overdue` but doesn't count toward hell week. mention it, don't score it.
+
+to try it without Canvas: `python3 scripts/score.py --sample`. tests: `python3 scripts/test_score.py`.
+
 ## the items file
 
 a JSON list. one object per thing that's due:
