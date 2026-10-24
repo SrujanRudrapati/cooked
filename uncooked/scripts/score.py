@@ -21,6 +21,10 @@ DEFAULT_LOAD = {"exam": 20, "project": 15, "essay": 10, "quiz": 3, "homework": 2
 BASE_HOURS = {"exam": 6, "project": 8, "essay": 5, "quiz": 1, "homework": 1.5, "other": 1}
 EFFORT_MIN_SCALE = 0.5
 EFFORT_MAX_SCALE = 2.0
+# how much of an item's load still counts: 1 not started, 2 some, 3 solid
+READINESS_FACTOR = {1: 1.0, 2: 0.7, 3: 0.4}
+# more than this share of items on default weights makes the score a rough estimate
+ROUGH_ESTIMATE_SHARE = 1 / 3
 
 FULLY_COOKED_LOAD = 45  # this much grade in one week = 100% cooked
 HELL_WEEK_DAYS = 7
@@ -61,15 +65,24 @@ def to_number(value: Any, label: str) -> float:
         raise InputError(f"{label} must be a number, got {value!r}") from None
 
 
-def item_load(raw: dict, kind: str, label: str) -> float:
+def item_load(raw: dict, kind: str, label: str) -> tuple[float, bool]:
+    """the item's share of its course grade, and whether it fell back to the default."""
     if raw.get("weight_pct") is not None:
-        return to_number(raw["weight_pct"], f"{label} weight_pct")
+        return to_number(raw["weight_pct"], f"{label} weight_pct"), False
     points, total = raw.get("points_possible"), raw.get("course_total_points")
     if points is not None and total is not None:
         total_num = to_number(total, f"{label} course_total_points")
         if total_num > 0:
-            return to_number(points, f"{label} points_possible") / total_num * 100
-    return float(DEFAULT_LOAD[kind])
+            return to_number(points, f"{label} points_possible") / total_num * 100, False
+    return float(DEFAULT_LOAD[kind]), True
+
+
+def parse_readiness(value: Any, label: str) -> int | None:
+    if value is None:
+        return None
+    if isinstance(value, bool) or value not in READINESS_FACTOR:
+        raise InputError(f"{label} readiness must be 1, 2 or 3, got {value!r}")
+    return int(value)
 
 
 def effort_hours(kind: str, load: float) -> float:
@@ -89,13 +102,17 @@ def normalize(raw: Any, index: int) -> tuple[dict, str | None]:
     if kind not in DEFAULT_LOAD:
         warning = f"{label} ({raw['title']}) has unknown type {kind!r}, counted as other"
         kind = "other"
-    load = item_load(raw, kind, label)
+    load, default_weight = item_load(raw, kind, label)
+    readiness = parse_readiness(raw.get("readiness"), label)
     item = {
         "course": str(raw["course"]),
         "title": str(raw["title"]),
         "type": kind,
         "due": parse_date(raw["due"], f"{label} due"),
         "load": load,
+        "cooked_load": load * READINESS_FACTOR[readiness or 1],
+        "default_weight": default_weight,
+        "readiness": readiness,
         "effort_hours": effort_hours(kind, load),
         "submitted": raw.get("submitted") is True,
         "note": raw.get("note"),
@@ -109,7 +126,7 @@ def find_hell_week(items: list[dict]) -> dict | None:
     for start in sorted({item["due"] for item in items}):
         end = start + timedelta(days=HELL_WEEK_DAYS - 1)
         inside = [item for item in items if start <= item["due"] <= end]
-        total = sum(item["load"] for item in inside)
+        total = sum(item["cooked_load"] for item in inside)
         if best is None or total > best["total_load"]:
             best = {"start": start, "items": inside, "total_load": total}
     return best
@@ -132,7 +149,7 @@ def days_until(item: dict, today: date) -> int:
 
 def urgency(item: dict, today: date) -> float:
     # due today counts as 1 day so nothing divides by zero
-    return item["load"] / max(1, days_until(item, today))
+    return item["cooked_load"] / max(1, days_until(item, today))
 
 
 def reason_for(item: dict, items: list[dict], hell_items: list[dict], today: date) -> str:
@@ -158,6 +175,8 @@ def public_item(item: dict, today: date) -> dict:
         "load": round(item["load"], 1),
         "effort_hours": item["effort_hours"],
     }
+    if item["readiness"] is not None:
+        shown = {**shown, "readiness": item["readiness"]}
     return {**shown, "note": item["note"]} if item["note"] else shown
 
 
@@ -186,6 +205,15 @@ def hell_week_summary(hell_week: dict | None, today: date) -> dict | None:
     }
 
 
+def weights_summary(items: list[dict]) -> dict:
+    defaults = sum(1 for item in items if item["default_weight"])
+    return {
+        "default_items": defaults,
+        "scored_items": len(items),
+        "rough_estimate": defaults > len(items) * ROUGH_ESTIMATE_SHARE,
+    }
+
+
 def compute(raw_items: Any, today: date) -> dict:
     if not isinstance(raw_items, list):
         raise InputError("input must be a JSON list of items")
@@ -200,7 +228,9 @@ def compute(raw_items: Any, today: date) -> dict:
         "today": today.isoformat(),
         "score": parts["score"],
         "score_parts": {"hell_week_load": round(hell_week["total_load"], 1) if hell_week else 0,
+                        "fully_cooked_load": FULLY_COOKED_LOAD,
                         "base": parts["base"], "bonus": parts["bonus"]},
+        "weights": weights_summary(upcoming),
         "hell_week": hell_week_summary(hell_week, today),
         "priority": priority_list(upcoming, hell_week["items"] if hell_week else [], today),
         "hours_next_14_days": round(sum(item["effort_hours"] for item in soon), 1),
