@@ -1,4 +1,4 @@
-# cooked
+# uncooked
 
 we built this at devhacks after one of us checked canvas at 11pm and found three exams in four days.
 
