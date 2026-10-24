@@ -1,6 +1,6 @@
 <div align="center">
 
-# 🔥 uncooked
+# 🔥 cooked
 
 ### Find your hell week before it finds you.
 
@@ -16,9 +16,9 @@ A semester rescue skill for **Cubbie**, right inside **iMessage**.
 
 </div>
 
-We built uncooked at DevHacks after one of us checked Canvas at 11pm and found **three exams in four days**.
+We built cooked at DevHacks after one of us checked Canvas at 11pm and found **three exams in four days**.
 
-The deadlines were there all along. The collision was easy to miss. Uncooked brings assignments across classes into one view, weighs what's at stake, and turns the busiest week into a plan you can actually follow.
+The deadlines were there all along. The collision was easy to miss. Cooked brings assignments across classes into one view, weighs what's at stake, and turns the busiest week into a plan you can actually follow.
 
 ## See it in iMessage
 
@@ -28,7 +28,7 @@ The deadlines were there all along. The collision was easy to miss. Uncooked bri
   </a>
 </p>
 
-<p align="center"><sub>Real Cubbie test on student data. This early build used the name “cooked.” Tap the screenshot to view it at full size.</sub></p>
+<p align="center"><sub>Real Cubbie test on student data. Tap the screenshot to view it at full size.</sub></p>
 
 **A low score still needs context.** In this conversation, Cubbie calls out overdue work and incomplete Canvas data alongside the upcoming score, then gives the student a concrete first step.
 
@@ -64,7 +64,7 @@ add these to your calendar?
 
 ## From “am I cooked?” to “here's the plan”
 
-| Step | What uncooked does |
+| Step | What cooked does |
 | --- | --- |
 | **1. Spot the collision** | Reads Canvas deadlines and grade weights, plus exam dates available in a syllabus. Finds the seven days with the most grade weight landing at once. |
 | **2. Explain the score** | Runs the Python scorer and shows which assignments drive the result, with their share of each course grade. Text **“how did you get that score?”** for the math in 3 lines. |
@@ -81,7 +81,7 @@ The roast stays about the schedule. Above 85% cooked, the tone gets gentler and 
 
 ### When you fall behind
 
-Every night (9pm unless you pick another time), uncooked checks Canvas for what's new or turned in since last time and your calendar for which study blocks already passed. If it can't tell, it asks. Then you get one text: what you got done, what's due in the next 48 hours, your new score, and what to do next.
+Every night (9pm unless you pick another time), cooked checks Canvas for what's new or turned in since last time and your calendar for which study blocks already passed. If it can't tell, it asks. Then you get one text: what you got done, what's due in the next 48 hours, your new score, and what to do next.
 
 If you skipped a block, it says so. No “great job today!” when you didn't do anything. It moves the block to your next free slot, asks before touching your calendar, and tells you if hell week just got worse.
 
@@ -90,10 +90,10 @@ If you skipped a block, it says so. No “great job today!” when you didn't do
 **Python 3.12. Standard library only. No package installation or connected accounts needed for the sample.**
 
 ```bash
-git clone https://github.com/SrujanRudrapati/uncooked.git
-cd uncooked
-python3 uncooked/scripts/score.py --sample
-python3 uncooked/scripts/test_score.py
+git clone https://github.com/SrujanRudrapati/cooked.git
+cd cooked
+python3 cooked/scripts/score.py --sample
+python3 cooked/scripts/test_score.py
 ```
 
 The bundled sample uses **November 6, 2026** as a fixed date, so the demo is reproducible. Its result:
@@ -110,13 +110,13 @@ That collision contains the MAT midterm (**15%** of its course grade), CHM exam 
 2. Text Cubbie this skill link:
 
    ```text
-   https://github.com/SrujanRudrapati/uncooked/tree/main/uncooked
+   https://github.com/SrujanRudrapati/cooked/tree/main/cooked
    ```
 
 3. Text **“how cooked am I”**.
 4. Say yes to **“want me to save you?”** to see a study plan. Review it before approving calendar changes.
 
-Without Google Calendar, uncooked can still score your semester and give you a plan as text. Nightly check-ins are optional; choose a time, or text **“pause debriefs”** to stop them.
+Without Google Calendar, cooked can still score your semester and give you a plan as text. Nightly check-ins are optional; choose a time, or text **“pause debriefs”** to stop them.
 
 ## Why the score means something
 
@@ -139,7 +139,7 @@ Weights come from the item's explicit grade share, then its points divided by to
 
 Submitted items are excluded. Unsubmitted overdue items are reported separately. Effort estimates scale by assignment type and grade share to help size study blocks.
 
-**Every cooked score comes from [`score.py`](uncooked/scripts/score.py).** Cubbie handles the conversation and connected tools; Python handles the arithmetic.
+**Every cooked score comes from [`score.py`](cooked/scripts/score.py).** Cubbie handles the conversation and connected tools; Python handles the arithmetic.
 
 ## Built to be inspectable
 
@@ -152,10 +152,10 @@ This repo contains the skill instructions, scoring engine, sample data, and test
 
 | File | Purpose |
 | --- | --- |
-| [`uncooked/SKILL.md`](uncooked/SKILL.md) | Conversation flow, planning rules, nightly debriefs, and guardrails. |
-| [`uncooked/scripts/score.py`](uncooked/scripts/score.py) | Grade-weighted scoring, collision detection, priorities, and effort estimates. |
-| [`uncooked/assets/sample_items.json`](uncooked/assets/sample_items.json) | Reproducible demo with assignments across four courses. |
-| [`uncooked/scripts/test_score.py`](uncooked/scripts/test_score.py) | Six tests for core scoring behavior, readiness, and default weights. |
+| [`cooked/SKILL.md`](cooked/SKILL.md) | Conversation flow, planning rules, nightly debriefs, and guardrails. |
+| [`cooked/scripts/score.py`](cooked/scripts/score.py) | Grade-weighted scoring, collision detection, priorities, and effort estimates. |
+| [`cooked/assets/sample_items.json`](cooked/assets/sample_items.json) | Reproducible demo with assignments across four courses. |
+| [`cooked/scripts/test_score.py`](cooked/scripts/test_score.py) | Six tests for core scoring behavior, readiness, and default weights. |
 
 <details>
 <summary><strong>Run the scorer with your own data</strong></summary>
@@ -172,10 +172,10 @@ Save a JSON list as `items.json`:
 From the repository root, run:
 
 ```bash
-python3 uncooked/scripts/score.py --input items.json --today 2026-11-06
+python3 cooked/scripts/score.py --input items.json --today 2026-11-06
 ```
 
-Use today's date in your time zone for your own schedule. See [`SKILL.md`](uncooked/SKILL.md#the-items-file) for the full item format.
+Use today's date in your time zone for your own schedule. See [`SKILL.md`](cooked/SKILL.md#the-items-file) for the full item format.
 
 </details>
 
@@ -184,4 +184,4 @@ Use today's date in your time zone for your own schedule. See [`SKILL.md`](uncoo
 - **Data quality:** missing weights fall back to defaults. Canvas gaps and syllabus-only dates need a second look.
 - **Coverage:** work outside Canvas needs to be supplied through a syllabus or the input data.
 - **Course differences:** pass/fail classes still count by grade share, and group projects are planned as individual work.
-- **Student control:** calendar additions and moves require approval. Uncooked never completes or submits graded work.
+- **Student control:** calendar additions and moves require approval. Cooked never completes or submits graded work.

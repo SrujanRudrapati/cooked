@@ -1,11 +1,11 @@
 ---
-name: uncooked
+name: cooked
 description: tells you how cooked you are this semester, what's about to collide, and what to do first. use when a student asks how cooked they are, wants their semester roasted, or asks how bad the next few weeks look.
 ---
 
-# uncooked
+# cooked
 
-a planner tells you what's due. uncooked tells you when you're in trouble, why, and what to do before it's too late.
+a planner tells you what's due. cooked tells you when you're in trouble, why, and what to do before it's too late.
 
 never just say "you're 87% cooked" and stop. show the collision, say what needs attention first, give a plan that's actually doable, and keep the plan honest when the student falls behind.
 
@@ -19,17 +19,17 @@ texts like:
 - "how's my semester looking"
 - "what should I do first"
 
-this isn't the built-in study plan builder. uncooked scores the semester, finds the week where everything lands at once, and roasts you a little before it helps.
+this isn't the built-in study plan builder. cooked scores the semester, finds the week where everything lands at once, and roasts you a little before it helps.
 
 ## what it does
 
 1. before reading anything, text "checking your canvas 👀" so they know you're on it.
 2. read the student's Canvas for upcoming assignments, quizzes, exams and projects that aren't submitted yet, with due dates, points and grade weights. that's all the score needs. skip current grades. only open syllabus files for courses with no exams in Canvas, and add any exam dates you find there with the note "from your syllabus, double-check in Canvas." don't read the calendar yet, that waits until they say yes to "want me to save you?"
    - after the first run, save the item list, the course weights and today's date to memory. on later runs, fetch only what's new, changed or newly submitted since the last run, merge it into the saved list and reuse the rest
-3. write the items to `~/.config/uncooked/items.json` (format below) and run this from the skill folder, with today's date in the student's time zone:
+3. write the items to `~/.config/cooked/items.json` (format below) and run this from the skill folder, with today's date in the student's time zone:
 
    ```
-   python3 scripts/score.py --input ~/.config/uncooked/items.json --today YYYY-MM-DD
+   python3 scripts/score.py --input ~/.config/cooked/items.json --today YYYY-MM-DD
    ```
 
    every number you text comes from the script's output. don't estimate scores yourself.
@@ -85,7 +85,7 @@ on yes, read the student's Google Calendar for the next 3 weeks so you know when
 - put study blocks in the student's free calendar time, highest priority first
 - no more than 3 hours of blocks a day
 - add office hours from the syllabus if they fit
-- name each block "uncooked: <course> <item>" so you can find them later
+- name each block "cooked: <course> <item>" so you can find them later
 
 show the plan as a short list. only add it to Google Calendar after they say yes. remember the score you just gave so the debrief can say if it went up or down.
 
@@ -93,10 +93,10 @@ show the plan as a short list. only add it to Google Calendar after they say yes
 
 after the plan, offer a daily debrief. one question: "want a nightly check-in? 9pm work?" let them pick the time. on yes, create a daily scheduled check-in at that time, worded so it makes sense on its own later:
 
-"uncooked nightly debrief: check Canvas for what the student submitted today and Google Calendar for which 'uncooked:' study blocks were scheduled today. re-run the cooked score and send one debrief text."
+"cooked nightly debrief: check Canvas for what the student submitted today and Google Calendar for which 'cooked:' study blocks were scheduled today. re-run the cooked score and send one debrief text."
 
 each night:
-1. check Canvas for what got submitted today, and the calendar for which "uncooked:" blocks already passed today
+1. check Canvas for what got submitted today, and the calendar for which "cooked:" blocks already passed today
 2. if you can't tell whether they did a block, ask "did you get to today's blocks?" and wait for the answer
 3. start from the item list in memory and fetch only what's new, changed or newly submitted in Canvas since the last run. count finished study blocks as readiness for their item: at least one block done is 2, all of its blocks done is 3, and never go below what the student told you. update the items file and memory, then re-run `scripts/score.py` with tonight's date
 4. send one message: what got done, what's due in the next 48 hours, the new score next to the last one, and the new first priority
