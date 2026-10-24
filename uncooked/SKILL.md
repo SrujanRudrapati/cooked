@@ -34,9 +34,10 @@ this isn't the built-in study plan builder. uncooked scores the semester, finds 
 
    every number you text comes from the script's output. don't estimate scores yourself.
 4. reply in two texts:
-   - first text: "you're X% cooked" plus one emoji, then the collision: hell week dates and what's in it, each with its share of the course grade. like "nov 16-20: CHM 233 exam (20%), MAT 266 midterm (25%), ENG 102 essay (15%)"
+   - first text: "you're X% cooked" plus one emoji, then the line "based on how much of your grade lands in one week". if the script's `weights.rough_estimate` is true, add "rough estimate: X of Y items had no weights in canvas" (X is `weights.default_items`, Y is `weights.scored_items`). then the collision: hell week dates and what's in it, each with its share of the course grade. like "nov 16-20: CHM 233 exam (20%), MAT 266 midterm (25%), ENG 102 essay (15%)"
    - second text: what to do first and why, from the top of the script's priority list, then one roast about one real detail of their due dates (see roasts below). like "start with the ENG essay. it's the only one you can finish early, and it clears thursday. two essays due the same thursday, the profs didn't coordinate so now you have to". above 85, keep it gentle
-5. ask "want me to save you?"
+5. ask one readiness question about the top priority item: "how ready are you for the MAT midterm? 1 not started, 2 some, 3 solid". put their answer in that item's `readiness`, save it to memory with the item, and re-run the script. if the score moved, say so in one line, like "ok, with that you're 71%, down from 78"
+6. ask "want me to save you?"
 
 ## how the score works
 
@@ -44,6 +45,12 @@ this isn't the built-in study plan builder. uncooked scores the semester, finds 
 - hell week is the 7 days with the most grade riding on them
 - 45% of your grades landing in one week means 100% cooked
 - if hell week starts in 10 days or less it's +10, and +5 more if it's 3 days out
+- readiness shrinks an item's load: 1 (not started) counts fully, 2 (some) counts 70%, 3 (solid) counts 40%. no readiness counts as 1
+
+if they ask "how did you get that score?", answer in 3 short lines, all from the script output:
+- "X% of your grade lands in [hell week dates], counting readiness" (`score_parts.hell_week_load`)
+- "45% in one week is 100% cooked, so that's Y%" (`score_parts.fully_cooked_load`, `score_parts.base`), plus "+Z because it starts in N days" if `score_parts.bonus` is above 0
+- "X of Y items had no weights in canvas, so they used defaults" (`weights`), or "every item had real weights" if none did
 
 tradeoff: we weigh grade share instead of counting deadlines, because three small quizzes are not the same as two big projects. the catch is a class with no weights or points in Canvas falls back to defaults by type (exam 20%, project 15%, essay 10%, quiz 3%, homework 2%), so the score is only as good as what Canvas knows.
 
@@ -68,6 +75,7 @@ a JSON list. one object per thing that's due:
 - `weight_pct` is the item's share of the course grade, if the syllabus or Canvas gives one
 - otherwise send `points_possible` and `course_total_points` when Canvas has them
 - `submitted` is true if Canvas shows it turned in
+- `readiness` is optional: 1 not started, 2 some, 3 solid. from the readiness question or finished study blocks
 - `note` is optional, use it for "from your syllabus, double-check in Canvas"
 
 ## saving them
@@ -90,7 +98,7 @@ after the plan, offer a daily debrief. one question: "want a nightly check-in? 9
 each night:
 1. check Canvas for what got submitted today, and the calendar for which "uncooked:" blocks already passed today
 2. if you can't tell whether they did a block, ask "did you get to today's blocks?" and wait for the answer
-3. start from the item list in memory and fetch only what's new, changed or newly submitted in Canvas since the last run. update the items file and memory, then re-run `scripts/score.py` with tonight's date
+3. start from the item list in memory and fetch only what's new, changed or newly submitted in Canvas since the last run. count finished study blocks as readiness for their item: at least one block done is 2, all of its blocks done is 3, and never go below what the student told you. update the items file and memory, then re-run `scripts/score.py` with tonight's date
 4. send one message: what got done, what's due in the next 48 hours, the new score next to the last one, and the new first priority
 
 if a block got missed, don't pretend it's fine. say it plainly, find the next free slot (still max 3 hours a day), and ask before moving it on the calendar. if the new score is higher or hell week picked up an item, say that too. like:
