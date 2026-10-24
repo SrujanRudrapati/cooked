@@ -1,0 +1,15 @@
+[
+  {"course": "MAT 266", "title": "webwork 8", "type": "homework", "due": "2026-11-09"},
+  {"course": "CSE 110", "title": "lab 9", "type": "homework", "due": "2026-11-10",
+   "points_possible": 20, "course_total_points": 1000},
+  {"course": "CHM 233", "title": "quiz 7", "type": "quiz", "due": "2026-11-12"},
+  {"course": "ENG 102", "title": "peer review", "type": "other", "due": "2026-11-13"},
+  {"course": "MAT 266", "title": "midterm 2", "type": "exam", "due": "2026-11-17",
+   "points_possible": 90, "course_total_points": 600},
+  {"course": "CHM 233", "title": "exam 3", "type": "exam", "due": "2026-11-18", "weight_pct": 12},
+  {"course": "ENG 102", "title": "argument essay", "type": "essay", "due": "2026-11-20", "weight_pct": 8},
+  {"course": "CSE 110", "title": "project 3", "type": "project", "due": "2026-12-02", "weight_pct": 15},
+  {"course": "CHM 233", "title": "final exam", "type": "exam", "due": "2026-12-10", "weight_pct": 30,
+   "note": "from your syllabus, double-check in Canvas"},
+  {"course": "CSE 110", "title": "quiz 5", "type": "quiz", "due": "2026-11-05", "submitted": true}
+]
