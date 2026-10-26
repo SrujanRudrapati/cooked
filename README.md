@@ -2,6 +2,8 @@
 
 # 🔥 cooked
 
+### 🏆 Winner, Cubbie Hackathon Track 1 (DevHacks S3)
+
 ### Find your hell week before it finds you.
 
 Know how cooked you are, what's colliding, and what to do first.<br>
